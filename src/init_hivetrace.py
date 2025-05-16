@@ -3,7 +3,7 @@ from hivetrace import HivetraceSDK
 from src.config import HIVETRACE_ACCESS_TOKEN, HIVETRACE_URL
 
 try:
-    trace = HivetraceSDK(
+    hivetrace = HivetraceSDK(
         config={
             "HIVETRACE_URL": HIVETRACE_URL,
             "HIVETRACE_ACCESS_TOKEN": HIVETRACE_ACCESS_TOKEN,
@@ -12,4 +12,4 @@ try:
     )
 except Exception as e:
     print(f"Error initializing HivetraceSDK: {str(e)}")
-    trace = None
+    hivetrace = None

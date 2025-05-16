@@ -1,6 +1,6 @@
 from crewai import Crew
 from fastapi import APIRouter, Body, FastAPI
-from hivetrace.crewai_adapter import track_crew
+from hivetrace.crewai_adapter import trace
 
 from src.agents import agent_id_mapping, editor, planner, writer
 from src.config import (
@@ -11,18 +11,16 @@ from src.config import (
     USER_ID,
     WRITER_ID,
 )
-from src.init_hivetrace import trace
+from src.init_hivetrace import hivetrace
 from src.schemas import AgentResponse, TopicRequest
 from src.tasks import edit, plan, write
 
-# создаём FastAPI-приложение и роутер с префиксом /api
 app = FastAPI()
 router = APIRouter(prefix="/api")
 
 
-# декорируем функцию Crew с трекингом
-@track_crew(
-    hivetrace=trace,
+@trace(
+    hivetrace=hivetrace,
     application_id=HIVETRACE_APP_ID,
     user_id=USER_ID,
     session_id=SESSION_ID,
@@ -36,9 +34,8 @@ def create_crew():
     )
 
 
-# обработка темы через Crew
 def process_topic(topic: str, user_id: str = USER_ID, session_id: str = SESSION_ID):
-    trace.input(
+    hivetrace.input(
         application_id=HIVETRACE_APP_ID,
         message=f"Requesting information from agents on the topic: {topic}",
         additional_parameters={
@@ -66,7 +63,6 @@ def process_topic(topic: str, user_id: str = USER_ID, session_id: str = SESSION_
     return {"result": result.raw, "execution_details": {"status": "completed"}}
 
 
-# обработчик POST-запроса на /api/process-topic
 @router.post("/process-topic", response_model=AgentResponse)
 async def api_process_topic(request: TopicRequest = Body(...)):
     user_id = request.user_id or USER_ID
@@ -74,11 +70,9 @@ async def api_process_topic(request: TopicRequest = Body(...)):
     return process_topic(topic=request.topic, user_id=user_id, session_id=session_id)
 
 
-# регистрируем router
 app.include_router(router)
 
 
-# точка входа
 if __name__ == "__main__":
     import uvicorn
 

@@ -1,0 +1,42 @@
+{
+	"info": {
+		"_postman_id": "8222b8b9-3fef-4987-a7a9-590f42bc73a2",
+		"name": "Crew Agents",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31027321"
+	},
+	"item": [
+		{
+			"name": "Send request to agents",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"topic\": \"Make a 10-day trip plan in Japan\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8003/api/process-topic",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8003",
+					"path": [
+						"api",
+						"process-topic"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
