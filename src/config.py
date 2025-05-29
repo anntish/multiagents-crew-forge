@@ -1,5 +1,4 @@
 import os
-import uuid
 
 from dotenv import load_dotenv
 
@@ -15,6 +14,6 @@ HIVETRACE_APP_ID = os.getenv("HIVETRACE_APP_ID")
 SESSION_ID = os.getenv("SESSION_ID")
 USER_ID = os.getenv("USER_ID")
 
-PLANNER_ID = str(uuid.uuid4())
-WRITER_ID = str(uuid.uuid4())
-EDITOR_ID = str(uuid.uuid4())
+PLANNER_ID = "333e4567-e89b-12d3-a456-426614174001"
+WRITER_ID = "444e4567-e89b-12d3-a456-426614174002"
+EDITOR_ID = "555e4567-e89b-12d3-a456-426614174003"
