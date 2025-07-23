@@ -1,15 +1,14 @@
-from hivetrace import HivetraceSDK
+from contextlib import suppress
 
+from hivetrace import SyncHivetraceSDK
 from src.config import HIVETRACE_ACCESS_TOKEN, HIVETRACE_URL
 
-try:
-    hivetrace = HivetraceSDK(
+# Пытаемся инициализировать SDK, подавляя возможные исключения.
+hivetrace = None
+with suppress(Exception):
+    hivetrace = SyncHivetraceSDK(
         config={
             "HIVETRACE_URL": HIVETRACE_URL,
             "HIVETRACE_ACCESS_TOKEN": HIVETRACE_ACCESS_TOKEN,
-        },
-        async_mode=False,
+        }
     )
-except Exception as e:
-    print(f"Error initializing HivetraceSDK: {str(e)}")
-    hivetrace = None
