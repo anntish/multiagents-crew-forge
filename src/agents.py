@@ -1,11 +1,11 @@
 from crewai import Agent
 
 from src.config import EDITOR_ID, PLANNER_ID, WRITER_ID
-from src.tools import WebSearchTool
+from src.tools import WordCountTool
 
-planner_tools = [WebSearchTool()]
-writer_tools = [WebSearchTool()]
-editor_tools = [WebSearchTool()]
+planner_tools = [WordCountTool()]
+writer_tools = [WordCountTool()]
+editor_tools = [WordCountTool()]
 
 for tool in planner_tools:
     tool.agent_id = PLANNER_ID
