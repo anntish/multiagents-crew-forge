@@ -2,13 +2,13 @@ import uuid
 from typing import Optional
 
 from crewai import Crew
+
 from hivetrace import SyncHivetraceSDK
 from hivetrace import crewai_trace as trace
-
 from src.agents import agent_id_mapping, editor, planner, writer
 from src.config import HIVETRACE_APP_ID
 from src.tasks import edit, plan, write
-from src.utils.params import _build_agent_metadata, _build_common_params
+from src.utils.params import build_agent_metadata, build_common_params
 
 
 def process_topic(
@@ -18,14 +18,14 @@ def process_topic(
     session_id: Optional[str] = None,
 ):
     agent_conversation_id = str(uuid.uuid4())
-    common_params = _build_common_params(agent_conversation_id, user_id, session_id)
+    common_params = build_common_params(agent_conversation_id, user_id, session_id)
 
     hivetrace.input(
         application_id=HIVETRACE_APP_ID,
         message=f"Requesting information from agents on the topic: {topic}",
         additional_parameters={
             **common_params,
-            "agents": _build_agent_metadata(),
+            "agents": build_agent_metadata(),
         },
     )
 

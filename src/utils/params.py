@@ -3,7 +3,7 @@ from typing import Optional
 from src.config import EDITOR_ID, PLANNER_ID, WRITER_ID
 
 
-def _build_agent_metadata() -> dict:
+def build_agent_metadata() -> dict:
     return {
         PLANNER_ID: {
             "name": "Content Planner",
@@ -20,7 +20,7 @@ def _build_agent_metadata() -> dict:
     }
 
 
-def _build_common_params(
+def build_common_params(
     agent_conversation_id: str,
     user_id: Optional[str] = None,
     session_id: Optional[str] = None,

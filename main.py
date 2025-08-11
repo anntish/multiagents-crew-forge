@@ -1,8 +1,8 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
-from hivetrace import SyncHivetraceSDK
 
+from hivetrace import SyncHivetraceSDK
 from src.config import HIVETRACE_ACCESS_TOKEN, HIVETRACE_URL
 from src.routers.topic_router import router
 
