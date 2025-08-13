@@ -1,3 +1,5 @@
+### HiveTrace Integration with CrewAI (Agents) — Step-by-Step Guide
+
 ## Step 1: Install the dependency
 
 **What to do:** Add the HiveTrace SDK to your project
@@ -6,10 +8,10 @@
 
 ```bash
 # Via pip (for quick testing)
-pip install hivetrace[crewai]>=1.3.3
+pip install hivetrace[crewai]>=1.3.8
 
 # Or add to requirements.txt (recommended)
-echo "hivetrace[crewai]>=1.3.3" >> requirements.txt
+echo "hivetrace[crewai]>=1.3.8" >> requirements.txt
 pip install -r requirements.txt
 ```
 
