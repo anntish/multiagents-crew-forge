@@ -1,61 +1,26 @@
-import time
-from datetime import datetime
+from typing import Optional
 
 from crewai.tools import BaseTool
-from openai import OpenAI
-
-from src.config import OPENAI_API_KEY
 
 
-class WebSearchTool(BaseTool):
-    name: str = "WebSearchTool"
-    description: str = "Search the web for information. Input should be a string query."
-    last_request_time: datetime = None
-    min_delay: int = 2
-    agent_id: str = None
+class WordCountTool(BaseTool):
+    name: str = "WordCountTool"
+    description: str = "Count words, characters and sentences in text. Input should be the text to analyze."
+    agent_id: Optional[str] = None
 
-    def _run(self, query: str) -> str:
-        try:
-            if self.last_request_time:
-                time_since_last = (
-                    datetime.now() - self.last_request_time
-                ).total_seconds()
-                if time_since_last < self.min_delay:
-                    time.sleep(self.min_delay - time_since_last)
+    def _run(self, text: str) -> str:
+        if not text.strip():
+            return "Empty text"
 
-            client = OpenAI(api_key=OPENAI_API_KEY)
+        words = len(text.split())
+        characters = len(text)
+        characters_no_spaces = len(text.replace(" ", ""))
+        sentences = len(
+            [
+                s
+                for s in text.replace("!", ".").replace("?", ".").split(".")
+                if s.strip()
+            ]
+        )
 
-            completion = client.chat.completions.create(
-                model="gpt-4o-search-preview",
-                web_search_options={
-                    "search_context_size": "medium",
-                    "user_location": {
-                        "type": "approximate",
-                        "approximate": {
-                            "country": "GB",
-                            "city": "London",
-                            "region": "London",
-                        },
-                    },
-                },
-                messages=[{"role": "user", "content": query}],
-            )
-
-            result = completion.choices[0].message.content
-
-            if hasattr(completion.choices[0].message, "annotations"):
-                sources = []
-                for annotation in completion.choices[0].message.annotations:
-                    if annotation.type == "url_citation":
-                        sources.append(
-                            f"Source: {annotation.url_citation.title} ({annotation.url_citation.url})"
-                        )
-                if sources:
-                    result += "\n\n" + "\n".join(sources)
-
-            self.last_request_time = datetime.now()
-            return result
-
-        except Exception as e:
-            error_msg = f"Search error: {str(e)}"
-            return error_msg
+        return f"Words: {words}\nSymbols: {characters}\nSymbols without spaces: {characters_no_spaces}\nSentences: {sentences}"
